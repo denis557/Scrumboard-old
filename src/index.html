@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <title>Scrumboard</title>
+</head>
+<body>
+    <div class="menu">
+        <div class="menu-btn-wrapper">
+            <object data="img/menu btn.svg" class="menu-btn"></object>
+        </div>
+        <input type="text" id="search" class="search">
+        <object data="img/account.svg" id="account"></object>
+        <div class="menu-opened">
+            <label class="checkbox-label">TO DO</label>
+            <input type="checkbox" name="todo" id="todo-checkbox" class="checkbox" checked>
+            <label class="checkbox-label">IN P.</label>
+            <input type="checkbox" name="in-progress" id="in-progress-checkbox" class="checkbox" checked>
+            <label class="checkbox-label">IN R.</label>
+            <input type="checkbox" name="in-review" id="in-review-checkbox" class="checkbox" checked>
+            <label class="checkbox-label">DONE</label>
+            <input type="checkbox" name="done" id="done-checkbox" class="checkbox" checked>
+        </div>
+    </div>
+    <div class="div" id="block-wrapper">
+        <div class="block" id="todo-block-wrapper">
+            <p class="block-p">TO DO</p>
+            <div class="add" id="todo"></div>
+            <div id="todo-block" class="task-block"></div>
+        </div>
+        <div class="block" id="in-progress-block-wrapper">
+            <p class="block-p">IN PROGRESS</p>
+            <div class="add" id="in-progress"></div>
+            <div id="in-progress-block" class="task-block"></div>
+        </div>
+        <div class="block" id="in-review-block-wrapper">
+            <p class="block-p">IN REVIEW</p>
+            <div class="add" id="in-review"></div>
+            <div id="in-review-block" class="task-block"></div>
+        </div>
+        <div class="block" id="done-block-wrapper">
+            <p class="block-p">DONE</p>
+            <div class="add" id="done"></div>
+            <div id="done-block" class="task-block"></div>
+        </div>
+        <p id="empty-block" class="hidden">There's nothing here :(</p>
+    </div>
+    <div class="search-block hidden" id="search-block"></div>
+    <div id="bg" class="hidden"></div>
+    <div id="add-popup" class="hidden">
+        <label class="title-label" id="title-label">
+            Title
+            <input type="text" id="title-input" class="input" maxlength="50" />
+        </label>
+        <label class="description-label">
+            Description (optional)
+            <textarea id="description-input" class="input"></textarea>
+        </label>
+        <div class="date-div">
+            <input type="date" id="date" class="input" />
+            <input type="time" id="time" class="input" value="00:00" />
+        </div>
+        <button id="submit-create">Submit</button>
+    </div>
+    <div id="update-popup" class="hidden">
+        <label class="title-label" id="change-title-label">
+            Title
+            <input type="text" id="change-title-input" class="input" maxlength="50" />
+        </label>
+        <label class="description-label">
+            Description (optional)
+            <textarea id="change-description-input" class="input"></textarea>
+        </label>
+        <div class="date-div">
+            <input type="date" id="change-date" class="input"/>
+            <input type="time" id="change-time" class="input" value="00:00"/>
+        </div>
+        <label class="select-label">
+            <select id="select">
+                <option class="option" value="todo">TODO</option>
+                <option class="option" value="in-progress">IN PROGRESS</option>
+                <option class="option" value="in-review">IN REVIEW</option>
+                <option class="option" value="done">DONE</option>
+            </select>
+        </label>
+        <button id="submit-change">Submit</button>
+        <div id="pin"></div>
+        <div id="bin"></div>
+    </div>
+    <div id="delete-blackout" class="hidden"></div>
+    <div id="delete-popup" class="hidden">
+        <h1 class="delete-title">Delete this task?</h1>
+        <div class="delete-btns">
+            <button id="confirm-delete">Confirm</button>
+            <button id="cancel-delete">Cancel</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
