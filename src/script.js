@@ -87,15 +87,19 @@ const calculateDate = (date, time) => {
 
     if(days > 1) {
         return days + " days";
+    }else if(days == 1) {
+        return days + " day";
     } else if(days <= 1) {
         if(hours > 1) {
             return hours + " hours";
-        } else if(hours <= 1) {
+        } else if(hours == 1) {
+            return hours + " hour";
+        } else if(hours < 1) {
             if(minutes > 1) {
                 return minutes + " minutes"
             } else if(minutes == 1) {
                 return minutes + " minute"
-            } else if(minutes < 1) {
+            } else if(minutes < 1 && hours < 1 && days < 1) {
                 return "time is up!"
             }
         }
@@ -442,7 +446,12 @@ search.addEventListener("input", () => {
 
 search.addEventListener("keydown", (e) => {
     if(e.key === "ArrowDown" || e.key === "ArrowUp") {
-        blockClass.selectTask(e.key);
+        try{
+            blockClass.selectTask(e.key);
+            console.log(num)
+        }catch(error) {
+            console.error("privet")
+        }
     } else if(e.key === "Tab" || e.key === "Enter") {
         blockClass.searchTask(currentTaskSearch);
         searchBlock.scrollTop = 0;
