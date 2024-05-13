@@ -33,8 +33,8 @@
     <div class="div" id="block-wrapper">
         <div class="block" id="todo-block-wrapper">
             <p class="block-p">TO DO</p>
-            <div class="add" id="todo"></div>
             <div id="todo-block" class="task-block"></div>
+            <div class="add" id="todo"></div>
         </div>
         <div class="block" id="in-progress-block-wrapper">
             <p class="block-p">IN PROGRESS</p>
@@ -54,6 +54,7 @@
         <p id="empty-block" class="hidden">There's nothing here :(</p>
     </div>
     <div class="search-block hidden" id="search-block"></div>
+    <p class="hidden" id="empty-search">There's nothing here :(</p>
     <div id="bg" class="hidden"></div>
     <div id="add-popup" class="hidden">
         <label class="title-label" id="title-label">
@@ -85,22 +86,29 @@
         </div>
         <label class="select-label">
             <select id="select">
-                <option class="option" value="todo">TODO</option>
-                <option class="option" value="in-progress">IN PROGRESS</option>
-                <option class="option" value="in-review">IN REVIEW</option>
-                <option class="option" value="done">DONE</option>
+                <option class="option" value="todo" id="todo-option">TODO</option>
+                <option class="option" value="in-progress" id="in-progress-option">IN PROGRESS</option>
+                <option class="option" value="in-review" id="in-review-option">IN REVIEW</option>
+                <option class="option" value="done" id="done-option">DONE</option>
             </select>
         </label>
         <button id="submit-change">Submit</button>
         <div id="pin"></div>
         <div id="bin"></div>
     </div>
-    <div id="delete-blackout" class="hidden"></div>
+    <div id="second-blackout" class="hidden"></div>
     <div id="delete-popup" class="hidden">
         <h1 class="delete-title">Delete this task?</h1>
         <div class="delete-btns">
             <button id="confirm-delete">Confirm</button>
             <button id="cancel-delete">Cancel</button>
+        </div>
+    </div>
+    <div id="close-task-popup" class="hidden">
+        <h1 class="delete-title">Close this task?</h1>
+        <div class="delete-btns">
+            <button id="confirm-close">Confirm</button>
+            <button id="cancel-close">Cancel</button>
         </div>
     </div>
     <script src="script.js"></script>

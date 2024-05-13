@@ -11,6 +11,10 @@ const createWindow = () => {
     win.setMenuBarVisibility(false);
     win.setTitle("scrumboard");
     win.maximize();
+    win.webContents.setWindowOpenHandler((details) => {
+        require("electron").shell.openExternal(details.url);
+        return { action: 'deny' }
+      })
 }
 
 app.whenReady().then(() => createWindow());

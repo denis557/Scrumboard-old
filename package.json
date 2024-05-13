@@ -4,11 +4,28 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "start": "electron . --no-sandbox"
+    "start": "electron . --no-sandbox",
+    "dist": "electron-builder"
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
     "electron": "^30.0.1"
+  },
+  "build": {
+    "appId": "com.scrumboard.start",
+    "productName": "Scrumboard",
+    "target": "NSIS",
+    "directories": {
+      "output": "build"
+    },
+    "win": {
+      "icon": "src/img/icon.ico"
+    },
+    "nsis": {
+      "allowToChangeInstallationDirectory": true,
+      "oneClick": false
+    }
   }
 }

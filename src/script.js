@@ -20,10 +20,14 @@ const pin = document.getElementById("pin");
 const deletePopup = document.getElementById("delete-popup");
 const confirmDelete = document.getElementById("confirm-delete");
 const cancelDelete = document.getElementById("cancel-delete");
-const blackoutDelete = document.getElementById("delete-blackout");
+const confirmClose = document.getElementById("confirm-close");
+const cancelClose = document.getElementById("cancel-close");
+const closePopup = document.getElementById("close-task-popup")
+const blackoutDelete = document.getElementById("second-blackout");
 const search = document.getElementById("search");
 const searchBlock = document.getElementById("search-block");
 const blockWrapper = document.getElementById("block-wrapper");
+const emptySearch = document.getElementById("empty-search");
 let tasks;
 let id;
 let taskId = localStorage.getItem("taskIdStorage") || 0;
@@ -69,11 +73,15 @@ function hideChangePopup() {
 function openPopup() {
     addPopup.classList.remove("hidden");
     blackout.classList.remove("hidden");
+    titleHTML.placeholder = ""
+    document.getElementById("title-label").classList.remove("required")
 }
 
 function openChangePopup() {
     changePopup.classList.remove("hidden");
     blackout.classList.remove("hidden");
+    titleChangeHTML.placeholder = ""
+    document.getElementById("title-label").classList.remove("required")
 }
 
 const calculateDate = (date, time) => {
@@ -115,7 +123,7 @@ class NewBlock {
         titleHTML.placeholder = ""
         document.getElementById("title-label").classList.remove("required")
         const block = window.document.getElementById(`${id}-block`);
-        if(title === "") {
+        if(title === "" || title.trim() == 0) {
             titleHTML.placeholder = "Please fill in the title!"
             document.getElementById("title-label").classList.add("required")
         } else {
@@ -175,7 +183,7 @@ class NewBlock {
         const currentTask = this.items.find((task) => task.taskId === currentId);
         const currentTaskHtml = document.getElementById(currentId);
         const newBlock = document.getElementById(`${select.value}-block`);
-        if(titleChangeHTML.value == "") {
+        if(titleChangeHTML.value == "" || titleChangeHTML.value.trim() == 0) {
             titleChangeHTML.placeholder = "Please fill in the title!"
             document.getElementById("change-title-label").classList.add("required")
         } else {
@@ -239,10 +247,13 @@ class NewBlock {
 
     hideBlock(currentCheckbox) {
         const currentTaskHtml = document.getElementById(`${currentCheckbox.name}-block-wrapper`);
+        const currentOption = document.getElementById(`${currentCheckbox.name}-option`)
         if(!currentCheckbox.checked) {
             currentTaskHtml.classList.add("hidden-block");
+            currentOption.disabled = true;
         } else {
             currentTaskHtml.classList.remove("hidden-block")
+            currentOption.disabled = false;
         }
 
         const allBlocks = document.querySelectorAll(".block");
@@ -259,7 +270,12 @@ class NewBlock {
         if(search.value == "") {
             searchBlock.innerHTML = "";
             this.items.forEach((task) => {
-                searchBlock.innerHTML += `
+                const currentBlock = task.id;
+                const currentBlockHtml = document.getElementById(`${currentBlock}-block-wrapper`);
+                if(currentBlockHtml.classList.contains("hidden-block")) {
+                    return
+                } else {
+                    searchBlock.innerHTML += `
                     <div class="search-task" id="${task.taskId}-search">
                         <p class="search-title" id="${task.taskId}-search-title">${task.title}</p>
                     </div>
@@ -269,24 +285,36 @@ class NewBlock {
                         blockClass.searchTask(event.target.id);
                     })
                 })
+                }
             })
         } else {
             searchBlock.innerHTML = "";
             const searchInput = search.value;
             this.items.forEach((task) => {
-                if(task.title.includes(searchInput)) {
-                    searchBlock.innerHTML += `
-                        <div class="search-task" id="${task.taskId}-search">
-                            <p class="search-title" id="${task.taskId}-search-title">${task.title}</p>
-                        </div>
-                    `;
-                    document.querySelectorAll(".search-title").forEach((title) => {
-                        title.addEventListener("click", (event) => {
-                            blockClass.searchTask(event.target.id);
+                const currentBlock = task.id;
+                const currentBlockHtml = document.getElementById(`${currentBlock}-block-wrapper`);
+                if(currentBlockHtml.classList.contains("hidden-block")) {
+                    return
+                } else {
+                    if(task.title.includes(searchInput)) {
+                        searchBlock.innerHTML += `
+                            <div class="search-task" id="${task.taskId}-search">
+                                <p class="search-title" id="${task.taskId}-search-title">${task.title}</p>
+                            </div>
+                        `;
+                        document.querySelectorAll(".search-title").forEach((title) => {
+                            title.addEventListener("click", (event) => {
+                                blockClass.searchTask(event.target.id);
+                            })
                         })
-                    })
+                    }
                 }
             })
+        }
+        if(searchBlock.children.length == 0) {
+            emptySearch.classList.remove("hidden")
+        } else {
+            emptySearch.classList.add("hidden")
         }
     }
 
@@ -369,6 +397,12 @@ submitCreate.addEventListener("click", () => {
     blockClass.addTask(titleHTML.value, descriptionHTML.value, dateHTML.value, timeHTML.value);
 })
 
+addPopup.addEventListener("keydown", (e) => {
+    if(e.key == "Enter") {
+        blockClass.addTask(titleHTML.value, descriptionHTML.value, dateHTML.value, timeHTML.value);
+    }
+})
+
 blockContainer.addEventListener("click", (event) => {
     if (event.target.classList.contains("add")) {
         id = event.target.id;
@@ -430,10 +464,37 @@ submitChange.addEventListener("click", () => {
     blockClass.changeTask(currentTaskId);
 })
 
+changePopup.addEventListener("keydown", (e) => {
+    if(e.key == "Enter") {
+        blockClass.changeTask(currentTaskId);
+    }
+})
+
 blackout.addEventListener("click", () => {
-    hidePopup();
-    hideChangePopup();
+    closePopup.classList.remove("hidden");
+    blackoutDelete.classList.remove("hidden");
+    confirmClose.addEventListener("click", () => {
+        hidePopup();
+        hideChangePopup();
+        closePopup.classList.add("hidden");
+        blackoutDelete.classList.add("hidden");
+    })
+    cancelClose.addEventListener("click", () => {
+        closePopup.classList.add("hidden");
+        blackoutDelete.classList.add("hidden");
+    })
 });
+
+blockContainer.addEventListener("keydown", (e) => {
+    if(addPopup.classList.contains("hidden") && changePopup.classList.contains("hidden")) {
+        return
+    } else {
+        if(e.key === "Escape") {
+            hidePopup();
+            hideChangePopup();
+        }
+    }
+})
 
 search.addEventListener("click", () => {
     searchBlock.classList.remove("hidden");
