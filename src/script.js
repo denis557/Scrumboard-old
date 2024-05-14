@@ -335,14 +335,14 @@ class NewBlock {
         const blockChildren = searchBlock.children;
         if(num === -1) {
             if(key === "ArrowUp") {
-                console.log("da")
+                return
             } else if(key === "ArrowDown") {
                 num++
                 blockChildren[num].classList.add("selected");
                 searchBlock.scrollTop = blockChildren[num].offsetTop - 10;
                 currentTaskSearch = blockChildren[num].id;
             }
-        }else if(num >= blockChildren.length + 1){
+        }else if(num + 1 >= blockChildren.length){
             if(key === "ArrowUp") {
                 num--;
                 let nextTask = num + 1;
@@ -351,7 +351,18 @@ class NewBlock {
                 searchBlock.scrollTop = blockChildren[num].offsetTop - 10;
                 currentTaskSearch = blockChildren[num].id;
             } else if(key === "ArrowDown") {
-                console.log("net")
+                return
+            }
+        } else if(num === 0) {
+            if(key === "ArrowUp") {
+                return
+            } else if(key === "ArrowDown") {
+                num++;
+                let prevoiusTask = num - 1;
+                blockChildren[prevoiusTask].classList.remove("selected");
+                blockChildren[num].classList.add("selected");
+                searchBlock.scrollTop = blockChildren[num].offsetTop - 10;
+                currentTaskSearch = blockChildren[num].id;
             }
         } else {
             if(key === "ArrowUp") {
@@ -413,7 +424,7 @@ blockContainer.addEventListener("click", (event) => {
         blockClass.openTask(currentTaskId);
     } else if(event.target.classList.contains("checkbox")) {
         blockClass.hideBlock(event.target);
-        let checkboxes = [
+        const checkboxes = [
             {
                 name: "todo",
                 checked: document.getElementById("todo-checkbox").checked
@@ -507,12 +518,7 @@ search.addEventListener("input", () => {
 
 search.addEventListener("keydown", (e) => {
     if(e.key === "ArrowDown" || e.key === "ArrowUp") {
-        try{
-            blockClass.selectTask(e.key);
-            console.log(num)
-        }catch(error) {
-            console.error("privet")
-        }
+        blockClass.selectTask(e.key);
     } else if(e.key === "Tab" || e.key === "Enter") {
         blockClass.searchTask(currentTaskSearch);
         searchBlock.scrollTop = 0;
@@ -521,75 +527,83 @@ search.addEventListener("keydown", (e) => {
 })
 
 function loadTasks() {
-    const rawTasks = JSON.parse(localStorage.getItem("item"));
+    const rawTasks = JSON.parse(localStorage.getItem("item")); 
     const rawCheckboxes = JSON.parse(localStorage.getItem("checkboxes"));
     taskId = JSON.parse(localStorage.getItem("taskIdStorage"));
-    rawCheckboxes.forEach((checkbox) => {
-        blockClass.hideBlock(checkbox);
-        document.getElementById(`${checkbox.name}-checkbox`).checked = checkbox.checked;
-    })
-    rawTasks.forEach((task) => {
-        const block = window.document.getElementById(`${task.id}-block`);
-        blockClass.items.push({
-            taskId: task.taskId,
-            title: task.title,
-            description: task.description,
-            date: task.date,
-            time: task.time,
-            id: task.id,
-            isPinned: task.isPinned
-        });
-        if(task.id === "in-review") {
-            if(task.isPinned == true) {
-                block.innerHTML += `
-                <div class="task pinned" id="${task.taskId}" draggable="true">
-                    <p class="task-title">${task.title}</p>
-                    <p class="task-date">in review</p>
-                </div>
-                `;
-            } else {
-                block.innerHTML += `
-                <div class="task" id="${task.taskId}" draggable="true">
-                    <p class="task-title">${task.title}</p>
-                    <p class="task-date">in review</p>
-                </div>
-                `;
+    if(rawCheckboxes == null) {
+        return
+    } else {
+        rawCheckboxes.forEach((checkbox) => {
+            blockClass.hideBlock(checkbox);
+            document.getElementById(`${checkbox.name}-checkbox`).checked = checkbox.checked;
+        })
+    }
+    if(rawTasks == null) {
+        return
+    } else {
+        rawTasks.forEach((task) => {
+            const block = window.document.getElementById(`${task.id}-block`);
+            blockClass.items.push({
+                taskId: task.taskId,
+                title: task.title,
+                description: task.description,
+                date: task.date,
+                time: task.time,
+                id: task.id,
+                isPinned: task.isPinned
+            });
+            if(task.id === "in-review") {
+                if(task.isPinned == true) {
+                    block.innerHTML += `
+                    <div class="task pinned" id="${task.taskId}" draggable="true">
+                        <p class="task-title">${task.title}</p>
+                        <p class="task-date">in review</p>
+                    </div>
+                    `;
+                } else {
+                    block.innerHTML += `
+                    <div class="task" id="${task.taskId}" draggable="true">
+                        <p class="task-title">${task.title}</p>
+                        <p class="task-date">in review</p>
+                    </div>
+                    `;
+                }
+            } else if(task.id === "done") {
+                if(task.isPinned == true) {
+                    block.innerHTML += `
+                    <div class="task pinned" id="${task.taskId}" draggable="true">
+                        <p class="task-title">${task.title}</p>
+                        <p class="task-date">done</p>
+                    </div>
+                    `;
+                } else {
+                    block.innerHTML += `
+                    <div class="task" id="${task.taskId}" draggable="true">
+                        <p class="task-title">${task.title}</p>
+                        <p class="task-date">done</p>
+                    </div>
+                    `;
+                }
+            } 
+            else {
+                if(task.isPinned == true) {
+                    block.innerHTML += `
+                    <div class="task pinned" id="${task.taskId}" draggable="true">
+                        <p class="task-title">${task.title}</p>
+                        <p class="task-date">${calculateDate(task.date, task.time)}</p>
+                    </div>
+                    `;
+                } else {
+                    block.innerHTML += `
+                    <div class="task" id="${task.taskId}" draggable="true">
+                        <p class="task-title">${task.title}</p>
+                        <p class="task-date">${calculateDate(task.date, task.time)}</p>
+                    </div>
+                    `;
+                }
             }
-        } else if(task.id === "done") {
-            if(task.isPinned == true) {
-                block.innerHTML += `
-                <div class="task pinned" id="${task.taskId}" draggable="true">
-                    <p class="task-title">${task.title}</p>
-                    <p class="task-date">done</p>
-                </div>
-                `;
-            } else {
-                block.innerHTML += `
-                <div class="task" id="${task.taskId}" draggable="true">
-                    <p class="task-title">${task.title}</p>
-                    <p class="task-date">done</p>
-                </div>
-                `;
-            }
-        } 
-        else {
-            if(task.isPinned == true) {
-                block.innerHTML += `
-                <div class="task pinned" id="${task.taskId}" draggable="true">
-                    <p class="task-title">${task.title}</p>
-                    <p class="task-date">${calculateDate(task.date, task.time)}</p>
-                </div>
-                `;
-            } else {
-                block.innerHTML += `
-                <div class="task" id="${task.taskId}" draggable="true">
-                    <p class="task-title">${task.title}</p>
-                    <p class="task-date">${calculateDate(task.date, task.time)}</p>
-                </div>
-                `;
-            }
-        }
-    })
+        })
+    }
 }
 
 window.addEventListener("load", loadTasks());
