@@ -446,6 +446,7 @@ blockContainer.addEventListener("click", (event) => {
     } else if(!event.target.classList.contains("search-block") && !event.target.classList.contains("search") && !event.target.classList.contains("search-task")) {
         if(!searchBlock.classList.contains("hidden")) {
             searchBlock.classList.add("hidden");
+            emptySearch.classList.add("hidden")
         }
     } else if(event.target.classList.contains("search-task")) {
         blockClass.searchTask(event.target.id);
