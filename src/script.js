@@ -28,6 +28,8 @@ const search = document.getElementById("search");
 const searchBlock = document.getElementById("search-block");
 const blockWrapper = document.getElementById("block-wrapper");
 const emptySearch = document.getElementById("empty-search");
+const menuOpened = document.getElementById("menu-opened");
+const menuBtn = document.getElementById("menu-btn-wrapper");
 let tasks;
 let id;
 let taskId = localStorage.getItem("taskIdStorage") || 0;
@@ -480,6 +482,14 @@ changePopup.addEventListener("keydown", (e) => {
     if(e.key == "Enter") {
         blockClass.changeTask(currentTaskId);
     }
+})
+
+menuOpened.addEventListener("mouseover", (e) => {
+    menuBtn.classList.add("rotated")
+})
+
+menuOpened.addEventListener("mouseout", (e) => {
+    menuBtn.classList.remove("rotated")
 })
 
 blackout.addEventListener("click", () => {

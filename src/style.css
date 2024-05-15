@@ -43,7 +43,6 @@ body {
 
 .menu-btn-wrapper:hover {
     transform: rotate(90deg) scale(0.8, 1);
-    /* transform: scale(0.9, 1); */
     transition: all .3s ease;
 }
 
@@ -51,11 +50,11 @@ body {
     position: absolute;
     z-index: 100;
     width: 3.6vw;
-    height: 37.5vh;
+    height: fit-content;
     background-color: #D9D9D9;
     border-radius: 20px;
     color: #4A4A4A;
-    font-size: 17px;
+    font-size: clamp(10px, 0.88vw, 20px);
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -64,6 +63,10 @@ body {
     transition: all .1s ease;
     opacity: 0;
     visibility: hidden;
+}
+
+.rotated {
+    transform: rotate(90deg) scale(0.8, 1);
 }
 
 .menu-btn-wrapper:hover ~ .menu-opened {
@@ -76,11 +79,6 @@ body {
     opacity: 1;
     visibility: visible;
 }
-/* 
-.menu-opened:hover ~ .menu-btn-wrapper {
-    transform: rotate(90deg);
-    transition: all .3s ease;
-} */
 
 #search {
     width: 15.9%;
@@ -90,9 +88,11 @@ body {
     border-radius: 10px;
     border: 2px solid #DBDBDB;
     outline: none;
-    font-size: 32px;
+    font-size: clamp(25px, 1.66vw, 37px);
     background-image: url('img/search.svg');
-    background-size: 50px 50px;
+    /* background-size: 50px 50px; */
+    /* background-size: 2.6vw 2.6vw; */
+    background-size: calc(min(50px, 3vw)) calc(min(50px, 3vw));
     background-position: right;
     background-repeat: no-repeat;  
     align-items: flex-end;
@@ -156,7 +156,7 @@ body {
 }
 
 .block-p {
-    font-size: 30px;
+    font-size: clamp(25px, 1.56vw, 40px);
     color: #4A4A4A;
     margin-top: 2vh;
     margin-left: 5.81%;
@@ -164,16 +164,16 @@ body {
 }
 
 .add {
-    width: 18.6%;
-    height: 10.3%;
-    min-width: 18.6%;
-    min-height: 10.3%;
+    width: 4.16vw;
+    height: 4.16vw;
+    min-width: 4.16vw;
+    min-height: 4.16vw;
     margin: 0 auto 15px;
     background-color: #D3D3D3;
-    border-radius: 30px;
+    border-radius: 1.56vw;
     cursor: pointer;
     background-image: url("img/add.svg");
-    background-size: 40px 40px;
+    background-size: 2.08vw 2.08vw;
     background-position: center;
     background-repeat: no-repeat;
     order: 9999;
@@ -199,14 +199,15 @@ body {
 
 .task-title {
     margin: 2vh 5% 4.4vh 5%;
-    font-size: 32px;
+    /* font-size: 32px; */
+    font-size: clamp(31px, 1.66vw, 37px);
     cursor: text;
     width: fit-content;
 }
 
 .task-date {
     color: #4A4A4A;
-    font-size: 24px;
+    font-size: clamp(22px, 1.25vw, 30px);
     align-self: flex-end;
     margin-right: 5%;
     margin-bottom: 1.5vh;
@@ -230,7 +231,8 @@ body {
     top: 12.8%;
     display: flex;
     flex-direction: column;
-    font-size: 40px;
+    /* font-size: 40px; */
+    font-size: clamp(37px, 2.08vw, 45px);
     color: #4A4A4A;
 }
 
@@ -251,7 +253,7 @@ body {
     border-radius: 20px;
     border: none;
     outline: none;
-    font-size: 40px;
+    font-size: clamp(37px, 2.08vw, 43px);
     width: 97.6%;
     padding-left: 2.4%;
     color: black;
@@ -259,7 +261,7 @@ body {
 
 #title-input::placeholder, #change-title-input::placeholder {
     color: rgb(168, 96, 96);
-    font-size: 35px;
+    font-size: clamp(32px, 1.8vw, 38px)
 }
 
 .description-label {
@@ -275,7 +277,8 @@ body {
     border-radius: 20px;
     border: none;
     outline: none;
-    font-size: 40px;
+    /* font-size: 40px; */
+    font-size: clamp(37px, 2.08vw, 43px);
     width: 97.6%;
     padding-left: 2.4%;
     padding-top: 1vh;
@@ -297,7 +300,8 @@ body {
     border-radius: 20px;
     border: none;
     outline: none;
-    font-size: 40px;
+    /* font-size: 40px; */
+    font-size: clamp(37px, 2.08vw, 43px);
     color: #4A4A4A;
 }
 
@@ -337,7 +341,8 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     outline: none;
     border-radius: 20px;
     background-color: #D9D9D9;
-    font-size: 36px;
+    /* font-size: 36px; */
+    font-size: clamp(30px, 1.875vw, 38px);
     color: #4A4A4A;
     appearance: none;
     background-image: url("img/arrow.svg");
@@ -357,7 +362,8 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     border: none;
     outline: none;
     border-radius: 20px;
-    font-size: 48px;
+    /* font-size: 48px; */
+    font-size: clamp(45px, 2.5vw, 50px);
     color: #4A4A4A;
     margin: 0 auto 4vh;
 }
@@ -369,9 +375,10 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 #bin, #pin {
     top: 70.1vh;
     position: absolute;
-    width: 8.7%;
-    height: 7.87vh;
-    border-radius: 20px;
+    width: 4.16vw;
+    height: 4.16vw;
+    /* border-radius: 20px; */
+    border-radius: 1.04vw;
     background-color: #D9D9D9;
 }
 
@@ -407,15 +414,18 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     top: 8.15%;
     display: flex;
     flex-direction: column;
-    font-size: 40px;
+    /* font-size: 40px; */
+    font-size: clamp(37px, 2.08vw, 45px);
     color: #4A4A4A;
 }
 
 .checkbox {
     appearance: none;
     -webkit-appearance: none;
-    width: 57%;
-    height: 10%;
+    /* width: 57%;
+    height: 10%; */
+    width: 2vw;
+    height: 2vw;
     border: none;
     background-color: #C3C3C3;
     border-radius: 10px;
@@ -429,7 +439,8 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     font-family: "Font Awesome 6 Free";
     content: "\f00c";
     font-weight: 900;
-    font-size: 32px;
+    /* font-size: 32px; */
+    font-size: clamp(28px, 1.66vw, 34px);
     display: none;
 }
 
@@ -462,7 +473,8 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 
 .delete-title {
     margin-top: 1.9vh;
-    font-size: 48px;
+    /* font-size: 48px; */
+    font-size: clamp(40px, 2.5vw, 50px);
     color: black;
 }
 
@@ -481,7 +493,8 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     border: none;
     border-radius: 20px;
     background-color: #D9D9D9;
-    font-size: 40px;
+    /* font-size: 40px; */
+    font-size: clamp(30px, 2.08vw, 43px);
     color: #4A4A4A;
     cursor: pointer;
     outline: none;
@@ -512,25 +525,19 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 
 .search-task {
     outline: none;
-    /* width: 92.1%; */
     width: 88.42%;
     height: 23.1%;
-    /* height: fit-content; */
     background-color: #F8F8F8;
     border-radius: 10px;
     margin: 15px auto;
-    /* padding-top: 6px;
-    padding-bottom: 7px; */
     padding: 6px 2% 7px;
 }
 
 .search-title {
     font-size: 32px;
-    /* width: 100%; */
     max-width: 50%;
-    white-space: nowrap; /* Текст не переносится */
+    white-space: nowrap;
     overflow: hidden;
-    /* margin-left: 7px; */
     text-overflow: ellipsis;
 }
 
@@ -549,7 +556,8 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 
 #empty-search {
     position: absolute;
-    font-size: 30px;
+    /* font-size: 30px; */
+    font-size: clamp(23px, 1.56vw, 33px);
     color: #4A4A4A;
     top: 24%;
     left: 3.7%;
@@ -564,7 +572,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 
 .github {
-    width: 50px;
-    height: 50px;
-    margin: 15px auto 0;
+    width: 2.6vw;
+    height: 2.6vw;
+    margin: 15px auto 20px;
 }
