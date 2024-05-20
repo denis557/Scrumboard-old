@@ -493,27 +493,106 @@ menuOpened.addEventListener("mouseout", (e) => {
 })
 
 blackout.addEventListener("click", () => {
-    closePopup.classList.remove("hidden");
-    blackoutDelete.classList.remove("hidden");
-    confirmClose.addEventListener("click", () => {
-        hidePopup();
-        hideChangePopup();
-        closePopup.classList.add("hidden");
-        blackoutDelete.classList.add("hidden");
-    })
-    cancelClose.addEventListener("click", () => {
-        closePopup.classList.add("hidden");
-        blackoutDelete.classList.add("hidden");
-    })
-});
-
-blockContainer.addEventListener("keydown", (e) => {
     if(addPopup.classList.contains("hidden") && changePopup.classList.contains("hidden")) {
         return
-    } else {
-        if(e.key === "Escape") {
+    } else if(!addPopup.classList.contains("hidden") && changePopup.classList.contains("hidden")) {
+        if(titleHTML.value == "" && descriptionHTML.value == "") {
             hidePopup();
+        } else if(titleHTML.value == "" && descriptionHTML.value.trim() == 0) {
+            hidePopup();
+        } else if(titleHTML.value.trim() == 0 && descriptionHTML.value == "") {
+            hidePopup();
+        } else if(titleHTML.value.trim() == 0 && descriptionHTML.value.trim() == 0) {
+            hidePopup();
+        } else {
+            closePopup.classList.remove("hidden");
+            blackoutDelete.classList.remove("hidden");
+            confirmClose.addEventListener("click", () => {
+                hidePopup();
+                closePopup.classList.add("hidden");
+                blackoutDelete.classList.add("hidden");
+            })
+            cancelClose.addEventListener("click", () => {
+                closePopup.classList.add("hidden");
+                blackoutDelete.classList.add("hidden");
+            })
+        }
+    }else if(addPopup.classList.contains("hidden") && !changePopup.classList.contains("hidden")) {
+        const currentTask = blockClass.items.find((task) => task.taskId == currentTaskId)
+        if(titleChangeHTML.value == currentTask.title && descriptionChangeHTML.value == currentTask.description) {
             hideChangePopup();
+        } else {
+            closePopup.classList.remove("hidden");
+            blackoutDelete.classList.remove("hidden");
+            confirmClose.addEventListener("click", () => {
+                hideChangePopup();
+                closePopup.classList.add("hidden");
+                blackoutDelete.classList.add("hidden");
+            })
+            cancelClose.addEventListener("click", () => {
+                closePopup.classList.add("hidden");
+                blackoutDelete.classList.add("hidden");
+            })
+        }
+    }
+});
+
+blackoutDelete.addEventListener("click", () => {
+    deletePopup.classList.add("hidden")
+    closePopup.classList.add("hidden");
+    blackoutDelete.classList.add("hidden");
+})
+
+blockContainer.addEventListener("keydown", (e) => {
+    if(e.key === "Escape") {
+        if(addPopup.classList.contains("hidden") && changePopup.classList.contains("hidden")) {
+            return
+        } else if(!addPopup.classList.contains("hidden") && changePopup.classList.contains("hidden")) {
+            if(titleHTML.value == "" && descriptionHTML.value == "") {
+                hidePopup();
+            } else if(titleHTML.value == "" && descriptionHTML.value.trim() == 0) {
+                hidePopup();
+            } else if(titleHTML.value.trim() == 0 && descriptionHTML.value == "") {
+                hidePopup();
+            } else if(titleHTML.value.trim() == 0 && descriptionHTML.value.trim() == 0) {
+                hidePopup();
+            } else {
+                closePopup.classList.remove("hidden");
+                blackoutDelete.classList.remove("hidden");
+                confirmClose.addEventListener("click", () => {
+                    hidePopup();
+                    closePopup.classList.add("hidden");
+                    blackoutDelete.classList.add("hidden");
+                })
+                cancelClose.addEventListener("click", () => {
+                    closePopup.classList.add("hidden");
+                    blackoutDelete.classList.add("hidden");
+                })
+            }
+        }else if(addPopup.classList.contains("hidden") && !changePopup.classList.contains("hidden")) {
+            const currentTask = blockClass.items.find((task) => task.taskId == currentTaskId)
+            if(titleChangeHTML.value == currentTask.title && descriptionChangeHTML.value == currentTask.description) {
+                hideChangePopup();
+            } else {
+                closePopup.classList.remove("hidden");
+                blackoutDelete.classList.remove("hidden");
+                confirmClose.addEventListener("click", () => {
+                    hideChangePopup();
+                    closePopup.classList.add("hidden");
+                    blackoutDelete.classList.add("hidden");
+                })
+                cancelClose.addEventListener("click", () => {
+                    closePopup.classList.add("hidden");
+                    blackoutDelete.classList.add("hidden");
+                })
+            }
+        }
+    } else if(e.key === "Tab") {
+        searchBlock.classList.remove("hidden");
+        blockClass.changeSearchMenu();
+    } else if(e.key === "ArrowDown" || e.key === "ArrowUp") {
+        if(!searchBlock.classList.contains("hidden")) {
+            blockClass.selectTask(e.key);
         }
     }
 })
